@@ -1,0 +1,19 @@
+const express = require('express');
+const Laptop = require('../models/Laptop');
+const router = express.Router();
+
+// Get all laptops
+router.get('/', async (req, res) => {
+  const laptops = await Laptop.find();
+  res.json(laptops);
+});
+
+// Add a laptop (Admin route)
+router.post('/add', async (req, res) => {
+  const { name, price, imageUrl, description } = req.body;
+  const laptop = new Laptop({ name, price, imageUrl, description });
+  await laptop.save();
+  res.status(201).json(laptop);
+});
+
+module.exports = router;
